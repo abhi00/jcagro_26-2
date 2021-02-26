@@ -11,7 +11,7 @@
 	<groupId>com.androprex</groupId>
 	<artifactId>JcAgro_Spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>JcAgro_Spring</name>
 	<description>Demo project for Spring Boot</description>
 
