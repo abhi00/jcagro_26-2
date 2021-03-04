@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.androprex.jcagro.dto.AuthanticationResponse;
 import com.androprex.jcagro.dto.LoginRequest;
+import com.androprex.jcagro.dto.MobileNo;
 import com.androprex.jcagro.dto.OtpVerify;
 import com.androprex.jcagro.dto.RegisterRequest;
 import com.androprex.jcagro.model.NotificationOtp;
 import com.androprex.jcagro.model.User;
-import com.androprex.jcagro.model.VerificationOTP;
+
 import com.androprex.jcagro.repo.UserRepository;
-import com.androprex.jcagro.repo.VerificationOtpRepo;
 import com.androprex.jcagro.security.JwtProvider;
 
 import lombok.AllArgsConstructor;
@@ -67,11 +67,7 @@ public class AuthService  {
 		user.setEnabled(false);
 		
 		userRepository.save(user);
-	     int token = builder.generateOTP(registerRequest.getMobile());
-	     log.info("Activation email sent!! OTP : "+token);
-		
-		otpService.sendSms(new NotificationOtp("Welcome to JCAgro Your One Time PassWord is  "+token,user.getMobile()));
-		
+	    
 		
 	}
 	 public String verifyAccount(OtpVerify verify) {
@@ -120,6 +116,20 @@ public class AuthService  {
 		
 		return new  AuthanticationResponse(token,loginRequest.getMobileno()); 
 	}
+	
+	@Transactional 
+	public boolean genrateOtp(MobileNo verify) {
+		
+		
+		 int token = builder.generateOTP(verify.getMobileno());
+		 
+	     log.info("Activation email sent!! OTP : "+token);
+		
+		otpService.sendSms(new NotificationOtp("Welcome to JCAgro Your One Time PassWord is  "+token,verify.getMobileno()));
+		
+		return true;
+	}
+	
 	
 	
 	
